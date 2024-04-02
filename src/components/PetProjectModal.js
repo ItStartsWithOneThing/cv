@@ -3,14 +3,15 @@ import React from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Keyboard, Mousewheel, Navigation, Pagination } from 'swiper/modules';
-import 'swiper/swiper-bundle.css';
+import 'swiper/css';
+import 'swiper/css/keyboard';
+import 'swiper/css/mousewheel';
+import 'swiper/css/pagination';
+import { IoClose } from "react-icons/io5";
+import { GrPrevious, GrNext } from "react-icons/gr";
 
-export default function PetProjectModal({ isOpened, openModal }) {
-  const images = [{src: '../media/img/todo1.jpg', alt: 'Main Page'},
-                    {src: '../media/img/todo2.jpg', alt: 'Sign In'},
-                    {src: '../media/img/todo3.jpg', alt: 'Add Card'},
-                    {src: '../media/img/todo4.jpg', alt: 'Edit Card'},
-                 ];
+export default function PetProjectModal({ isOpened, openModal, petProjects, projectIdx }) {
+  const modalRef = React.useRef(null);
 
   React.useEffect(() => {
     const handleKeyPress = (event) => {
@@ -18,7 +19,6 @@ export default function PetProjectModal({ isOpened, openModal }) {
         openModal(false);
       }
     };
-
     document.addEventListener('keydown', handleKeyPress);
 
     return () => {
@@ -26,37 +26,40 @@ export default function PetProjectModal({ isOpened, openModal }) {
     };
   }, []);
 
+  const handleModalClick = (event) => {
+    if(event.target === modalRef.current){
+      openModal(false);
+    }
+  }
+
   return (
-    <div className={`pet-project-modal ${isOpened ? 'active' : ''}`}>
+    <div className={`pet-project-modal ${isOpened ? 'active' : ''}`} ref={modalRef} onClick={(e) => handleModalClick(e)} >
         <div className={`pet-project-modal_container ${isOpened ? 'active' : ''}`}>
-            <Swiper
-                modules={[Keyboard, Mousewheel, Navigation, Pagination]}
-                spaceBetween={50}
-                slidesPerView={1}
-                navigation={{
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                    disabledClass: "swiper-button-disabled"
-                  }}
-                pagination={{ clickable: true }}
-                keyboard={{enabled: true}}
-                mousewhee={{enabled: true}}
-                style={{"--swiper-pagination-color": "rgb(137, 0, 142)"}}
-            >
-                {
-                    images.map((img, idx) => {
-                        return (
-                            <SwiperSlide><img src={img.src} width={'100%'} alt={img.alt} ></img></SwiperSlide>
-                        )
-                    })
-                }
-            </Swiper>
-            <div>
-                <div className="swiper-button-prev" style={{color:'#fff', height: '50%', width: '100px', top: '27%'}}></div>
-            </div>
-            
-            <div className="swiper-button-next" style={{color:'#fff', height: '50%', width: '100px', top: '27%'}}></div>
-        </div>
+          <IoClose className='modal_container_close-btn-icon' onClick={() => openModal(false)} />
+          <Swiper
+              modules={[Keyboard, Mousewheel, Navigation, Pagination]}
+              spaceBetween={50}
+              slidesPerView={1}
+              navigation={{
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev'
+                }}
+              pagination={{ clickable: true }}
+              keyboard={{enabled: true}}
+              mousewheel={{enabled: true}}
+              style={{"--swiper-pagination-color": "rgb(137, 0, 142)"}}
+          >
+              {
+                  petProjects[projectIdx].images.map((img, idx) => {
+                      return (
+                          <SwiperSlide key={idx} ><img src={img.src} width={'100%'} alt={img.alt} ></img></SwiperSlide>
+                      )
+                  })
+              }
+          </Swiper>
+          <GrPrevious className="swiper-button-prev" />        
+          <GrNext className="swiper-button-next" />
+      </div>
     </div>
   )
 }

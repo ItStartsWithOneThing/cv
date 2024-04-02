@@ -6,7 +6,7 @@ export default function StackList({techStack, techStackIcons}) {
     <ul>
         {
             techStack.map((item, idx) => (
-                <li >
+                <li key={idx} >
                     <span hint={item}>
                         <div className='stack-icon-text' >
                             {techStackIcons[idx]}

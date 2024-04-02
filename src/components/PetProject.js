@@ -2,7 +2,7 @@
 import React from 'react'
 import StackList from './StackList';
 
-export default function PetProject({ project, openModal }) {
+export default function PetProject({ key, project, openModal, image }) {
   const [activeButton, setActiveButton] = React.useState('Photo');
 
   return (
@@ -36,13 +36,13 @@ export default function PetProject({ project, openModal }) {
             </div>
             {
                 activeButton === 'Photo' ? (
-                    <div className={`pet_project-media_img`}>
-                        <img src='../media/img/todo1.jpg' alt='Main Page' title='ToDo-List Main Page' width={'500px'}
-                        onClick={() => openModal(true)}></img>
+                    <div className='pet_project-media_img'>
+                        <img src={image.src} alt={image.alt} title='ToDo-List Main Page' width='100%'
+                        onClick={() => openModal(true, key)}></img>
                     </div>
                 ) : (
-                    <div className={`pet_project-media_video`}>
-                        <video controls width='500' >
+                    <div className='pet_project-media_video'>
+                        <video controls width='100%' >
                             <source src='../media/video/todo-list-record.mp4' type='video/mp4' />
                             <source src='../media/video/todo-list.mp4' type='video/mp4' />
                             <source src='../media/video/todo-list.webm' type='video/webm'  />
