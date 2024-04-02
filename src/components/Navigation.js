@@ -30,9 +30,9 @@ export default function Navigation({ categories, categoriesId }) {
       }, []);
 
   return (
-    <header>
-        <div className='container'>
-            <nav className='nav'>
+    <div className='container'>
+        <header>
+           <nav className='nav'>
                 <ul>
                     {
                         categories.map((cat, idx) => {
@@ -47,8 +47,8 @@ export default function Navigation({ categories, categoriesId }) {
                     }
                 </ul>
             </nav>
-        </div>
-    </header>
+        </header>
+    </div>
   )
 }
 
@@ -61,7 +61,7 @@ function getCurrentAnchor() {
         const rect = section.getBoundingClientRect();
         const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
         const visibilityPercentage = (visibleHeight / rect.height) * 100;
-        if (visibilityPercentage >= 70) {
+        if (visibilityPercentage >= 30) {
           currentAnchor = section.id;
         }
       });
